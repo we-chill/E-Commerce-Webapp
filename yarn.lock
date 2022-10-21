@@ -15232,6 +15232,7 @@ eslint-config-standard-with-typescript@latest:
     eslint-plugin-unused-imports: 2.0.0
     husky: ^8.0.1
     lint-staged: ^13.0.3
+    lodash: ^4.17.21
     next: 12.3.1
     postcss: 8.4.18
     prettier: 2.7.1
