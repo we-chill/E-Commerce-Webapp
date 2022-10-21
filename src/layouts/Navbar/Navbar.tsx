@@ -1,4 +1,4 @@
-import { BoxIcon, SearchBar } from '@/components';
+import { IconButton, SearchBar } from '@/components';
 import { BoxIconType } from '@/components/BoxIcon/BoxIcon';
 import React, { FC } from 'react';
 
@@ -9,12 +9,25 @@ const Navbar: FC = () => {
     </a>
   );
 
+  const menuButton = <IconButton boxiconName="menu" />;
+  const userProfile = (
+    <IconButton
+      boxiconName="user-circle"
+      boxiconProps={{
+        type: BoxIconType.SOLID,
+      }}
+    />
+  );
+  const cartButton = <IconButton boxiconName="cart" />;
+
+  const languageIndicator = <div className="font-medium">US</div>;
+
   const navbarRight = (
-    <div className="flex flex-row space-x-8">
-      <BoxIcon name="menu" />
-      <BoxIcon type={BoxIconType.SOLID} name="user-circle" />
-      <BoxIcon name="cart" />
-      <div>US</div>
+    <div className="flex flex-row items-center space-x-6">
+      {menuButton}
+      {userProfile}
+      {cartButton}
+      {languageIndicator}
     </div>
   );
 
