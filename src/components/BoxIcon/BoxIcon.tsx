@@ -8,8 +8,9 @@ export const enum BoxIconType {
 /**
  * These props base on https://boxicons.com/usage#styling
  */
-interface BoxIconProps {
+export interface BoxIconProps {
   name: string;
+  color?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   rotate?: '90' | '180' | '270';
   flip?: 'horizontal' | 'vertical';
