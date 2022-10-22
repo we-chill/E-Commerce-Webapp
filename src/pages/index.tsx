@@ -80,7 +80,7 @@ const HomePage: NextPageWithLayout = () => {
   }
   const Card: FC<CardProps> = ({ name, price, image }) => {
     const cardImage = <div className="w-full h-[13.75rem] bg-[#FEEFEF] rounded-xl">{image}</div>;
-    const productPrice = <div className="mt-2 text-[#333333] text-xl font-bold">${price}</div>;
+    const productPrice = <div className="mt-2 text-xl font-bold">${price}</div>;
     const productName = <div className="text-[#4C4C4C]">{name}</div>;
     return (
       <div className="hover:shadow-lg cursor-pointer rounded-xl">
