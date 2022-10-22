@@ -31,10 +31,11 @@ const StarIcon: FC<StarIconProps> = ({ state = StarState.EMPTY }) => {
 
 export interface ProductModalProps {
   product: Product;
+  visible: boolean;
   onClose?: () => void;
 }
 
-const ProductModal: FC<ProductModalProps> = ({ product, onClose }) => {
+const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose }) => {
   const renderLeftSection = () => {
     const title = <div className="text-sm font-medium">{product.title ?? 'Product Title'}</div>;
     const name = <div className="text-2xl font-bold uppercase">{product.name}</div>;
@@ -66,10 +67,12 @@ const ProductModal: FC<ProductModalProps> = ({ product, onClose }) => {
     );
 
     return (
-      <div className="flex flex-col gap-[59px] text-justify">
+      <div className="h-full flex flex-col justify-between text-justify ">
         {info}
-        {price}
-        {smallImagesSection}
+        <div className="flex flex-col gap-[59px]">
+          {price}
+          {smallImagesSection}
+        </div>
       </div>
     );
   };
@@ -128,18 +131,37 @@ const ProductModal: FC<ProductModalProps> = ({ product, onClose }) => {
 
   return (
     <div
-      className={clsx([
-        'relative',
-        'flex justify-between gap-12',
-        'w-full max-w-320',
-        'px-[3.75rem] py-[8.125rem]',
-        'bg-white rounded-[40px]',
-      ])}
+      className={clsx(visible ? 'fixed' : 'hidden', 'z-40 inset-0 overflow-y-auto')}
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
     >
-      <div className="max-w-[20rem] flex-grow">{renderLeftSection()}</div>
-      <div>{centerSection}</div>
-      {renderRightSection()}
-      {buttonClose}
+      <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-8">
+        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true" />
+
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true" />
+
+        <div
+          className={clsx([
+            'relative',
+            'inline-flex justify-between gap-12 flex-wrap sm:justify-center',
+            'w-full max-w-320',
+            'px-[3.75rem] py-[8.125rem]',
+            'bg-white rounded-[40px]',
+            'align-middle text-left',
+            'transform transition-all',
+          ])}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="max-w-[20rem] flex-grow">{renderLeftSection()}</div>
+          <div>{centerSection}</div>
+          {renderRightSection()}
+          {buttonClose}
+        </div>
+      </div>
     </div>
   );
 };

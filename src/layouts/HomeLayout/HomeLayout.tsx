@@ -8,7 +8,7 @@ export type HomeLayoutProps = {
 
 const HomeLayout: FC<HomeLayoutProps> = ({ children, Slider, Sidebar }) => {
   return (
-    <div className="mt-8 w-screen flex flex-col items-center">
+    <div className="mt-8 mb-52 w-screen flex flex-col items-center">
       {Slider}
       <div className="w-full max-w-320 grid grid-cols-12">
         <div className="col-span-3">

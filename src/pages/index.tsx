@@ -1,10 +1,26 @@
-import React, { FC, ReactElement, ReactNode } from 'react';
+import React, { FC, ReactElement, ReactNode, useState } from 'react';
 import { HomeLayout, Layout, Sidebar } from '@/layouts';
-import { NextPageWithLayout } from '@/types';
-import { BoxIcon } from '@/components';
+import { NextPageWithLayout, Product } from '@/types';
+import { BoxIcon, ProductModal } from '@/components';
 import clsx from 'clsx';
 import useStore from '@/store';
 import { HomePageSectionType } from '@/constants';
+import { EMPTY_PRODUCT } from '@/constants/product';
+import ProductCard from '@/components/ProductCard';
+
+const listItems = Array.apply(0, Array(15)).map(
+  (_, index) =>
+    ({
+      id: index,
+      name: 'Product name #' + index,
+      price: 100,
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to ",
+      technicalInformation:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+      rating: 4,
+    } as Product)
+);
 
 const TitleDictionary: Record<HomePageSectionType, string> = {
   [HomePageSectionType.HOME]: 'Home',
@@ -14,7 +30,20 @@ const TitleDictionary: Record<HomePageSectionType, string> = {
 
 const HomePage: NextPageWithLayout = () => {
   const homePageSection = useStore((state) => state.homePage.activeSection);
-  const title = <div className="text-[52px] font-bold">{TitleDictionary[homePageSection]}</div>;
+
+  const [isProductModalVisible, setIsProductModalVisible] = useState(false);
+  const [productShownInModal, setProductShownInModal] = useState<Product>(EMPTY_PRODUCT);
+
+  const title = (
+    <div
+      className="text-[52px] font-bold"
+      style={{
+        lineHeight: '60.94px',
+      }}
+    >
+      {TitleDictionary[homePageSection]}
+    </div>
+  );
 
   const viewMore = <div className="mt-3 text-xl text-[#00000099]">view more</div>;
 
@@ -72,46 +101,30 @@ const HomePage: NextPageWithLayout = () => {
     </div>
   );
 
-  interface CardProps {
-    id: number;
-    name: string;
-    price: number;
-    image?: string;
-  }
-  const Card: FC<CardProps> = ({ name, price, image }) => {
-    const cardImage = <div className="w-full h-[13.75rem] bg-[#FEEFEF] rounded-xl">{image}</div>;
-    const productPrice = <div className="mt-2 text-xl font-bold">${price}</div>;
-    const productName = <div className="text-[#4C4C4C]">{name}</div>;
-    return (
-      <div className="hover:shadow-lg cursor-pointer rounded-xl">
-        {cardImage}
-        {productPrice}
-        {productName}
-      </div>
-    );
+  const onProductCardClick = (product: Product) => {
+    setProductShownInModal(product);
+    setIsProductModalVisible(true);
   };
 
-  const listItems = Array.apply(0, Array(15)).map((_, index) => ({
-    id: index,
-    name: 'Product name #' + index,
-    price: 100,
-    image: '',
-  }));
-
-  const renderProducts = () => {
-    const renderedList = listItems.map(({ id, name, price, image }) => (
-      <Card key={name + id} id={id} name={name} price={price} image={image} />
-    ));
-
-    return <div className="mt-6 grid grid-cols-5 gap-x-5 gap-y-8">{renderedList}</div>;
-  };
+  const productList = (
+    <div className="mt-6 grid grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8">
+      {listItems.map((product) => (
+        <ProductCard key={product.name + product.id} product={product} onClick={onProductCardClick} />
+      ))}
+    </div>
+  );
 
   return (
     <div className="">
       {title}
       {viewMore}
       <div className="mt-3">{sortAndFilters}</div>
-      {renderProducts()}
+      {productList}
+      <ProductModal
+        visible={isProductModalVisible}
+        product={productShownInModal}
+        onClose={() => setIsProductModalVisible(false)}
+      />
     </div>
   );
 };

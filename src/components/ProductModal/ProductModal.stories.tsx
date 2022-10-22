@@ -36,6 +36,7 @@ const Template: ComponentStory<typeof ProductModal> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   product: {
+    id: 1,
     name: 'Product Name',
     price: 100,
 
