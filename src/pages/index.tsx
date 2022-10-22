@@ -1,11 +1,20 @@
 import React, { FC, ReactElement, ReactNode } from 'react';
-import { HomeLayout, Layout } from '@/layouts';
+import { HomeLayout, Layout, Sidebar } from '@/layouts';
 import { NextPageWithLayout } from '@/types';
 import { BoxIcon } from '@/components';
 import clsx from 'clsx';
+import useStore from '@/store';
+import { HomePageSectionType } from '@/constants';
+
+const TitleDictionary: Record<HomePageSectionType, string> = {
+  [HomePageSectionType.HOME]: 'Home',
+  [HomePageSectionType.NEW_IN]: 'New in',
+  [HomePageSectionType.COMBO]: 'Combo',
+};
 
 const HomePage: NextPageWithLayout = () => {
-  const title = <div className="text-[52px] font-bold">Home</div>;
+  const homePageSection = useStore((state) => state.homePage.activeSection);
+  const title = <div className="text-[52px] font-bold">{TitleDictionary[homePageSection]}</div>;
 
   const viewMore = <div className="mt-3 text-xl text-[#00000099]">view more</div>;
 
@@ -111,45 +120,6 @@ export default HomePage;
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
   const Slider = () => <div className="mb-11 w-full max-w-320 h-[21.25rem] bg-[#FFEAEA] rounded-3xl" />;
-
-  const Sidebar: FC = () => {
-    interface SidebarItemProps {
-      label: string;
-      boxiconName?: string;
-
-      isActive?: boolean;
-
-      onClick?: () => void;
-    }
-    const SidebarItem: FC<SidebarItemProps> = ({ label, boxiconName, onClick, isActive }) => {
-      let icon;
-      if (boxiconName && boxiconName.trim() !== '') {
-        icon = <BoxIcon name={boxiconName} />;
-      }
-      return (
-        <div
-          className={clsx([
-            'px-7 w-full h-[3.75rem]',
-            'rounded-[20px]',
-            isActive ? 'bg-[#FFCF86]' : 'bg-[#F5F5F5] ',
-            'flex justify-between items-center',
-            'cursor-pointer hover:shadow-xl',
-          ])}
-          onClick={onClick}
-        >
-          {label}
-          {icon}
-        </div>
-      );
-    };
-    return (
-      <div className="pr-16 flex flex-col space-y-5">
-        <SidebarItem label="Home" boxiconName="home" />
-        <SidebarItem label="New in" boxiconName="cool" />
-        <SidebarItem label="Combo" boxiconName="home" isActive />
-      </div>
-    );
-  };
 
   return (
     <Layout>
