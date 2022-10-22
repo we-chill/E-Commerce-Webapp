@@ -7,6 +7,7 @@ export const enum BoxIconType {
 
 /**
  * These props base on https://boxicons.com/usage#styling
+ * - Do not put className in, it won't work
  */
 export interface BoxIconProps {
   name: string;
