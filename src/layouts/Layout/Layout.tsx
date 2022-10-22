@@ -11,7 +11,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="bg-white w-screen">
+        <div className="w-full h-full">{children}</div>
+      </main>
       <Script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js" strategy="lazyOnload" />
     </>
   );
