@@ -13,7 +13,7 @@ const HomeLayout: FC<HomeLayoutProps> = ({ children, Slider, Sidebar }) => {
         {Slider}
         <div className="w-full max-w-320 grid grid-cols-12">
           <div className="col-span-3">
-            <div className="sticky z-10 top-4 sm:top-6 heightAvoidNavBar">{Sidebar}</div>
+            <div className="sticky-avoid-navbar z-10">{Sidebar}</div>
           </div>
           <div className="col-span-9">{children}</div>
         </div>
