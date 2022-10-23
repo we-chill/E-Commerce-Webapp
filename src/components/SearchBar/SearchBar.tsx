@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import _ from 'lodash';
 import React, { FC } from 'react';
 import BoxIcon from '../BoxIcon';
 
@@ -25,12 +26,13 @@ export interface SearchBarProps {
 const SearchBar: FC<SearchBarProps> = (props) => {
   const {
     placeholder = 'Search...',
-
     width = 'w-full',
     height = 'h-9',
     background = 'bg-white',
     containerClassName,
     inputClassName,
+    onEnter,
+    ...rest
   } = props;
 
   return (
@@ -41,7 +43,6 @@ const SearchBar: FC<SearchBarProps> = (props) => {
         width,
         height,
         background,
-
         containerClassName
       )}
     >
@@ -49,6 +50,10 @@ const SearchBar: FC<SearchBarProps> = (props) => {
         type="text"
         placeholder={placeholder}
         className={clsx('w-full h-full ml-2 font-normal bg-transparent border-none outline-none', inputClassName)}
+        onKeyDown={(e) => {
+          e.key === 'Enter' && onEnter?.(_.get(e, 'target.value', ''));
+        }}
+        {...rest}
       />
       <BoxIcon name="search" />
     </div>

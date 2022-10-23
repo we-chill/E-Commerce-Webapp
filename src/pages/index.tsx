@@ -7,6 +7,7 @@ import useStore from '@/store';
 import { HomePageSectionType } from '@/constants';
 import { EMPTY_PRODUCT } from '@/constants/product';
 import ProductCard from '@/components/ProductCard';
+import { notifyUpcoming } from '@/utils';
 
 const listItems = Array.apply(0, Array(15)).map(
   (_, index) =>
@@ -67,6 +68,7 @@ const HomePage: NextPageWithLayout = () => {
           'flex justify-center items-center space-x-5',
           'hover:bg-neutral-200',
         ])}
+        onClick={notifyUpcoming}
       >
         {icon}
         {hasChildren && <div>{children}</div>}
