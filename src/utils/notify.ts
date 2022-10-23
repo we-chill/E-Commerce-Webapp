@@ -5,6 +5,7 @@ export const notify = (content: ReactNode, restProps?: ToastOptions) => {
   return toast(content, {
     position: 'bottom-left',
     pauseOnFocusLoss: false,
+    draggable: false,
     ...restProps,
   });
 };

@@ -4,15 +4,17 @@ import NextLink from 'next/link';
 import { IconButton, SearchBar } from '@/components';
 import { BoxIconType } from '@/components/BoxIcon/BoxIcon';
 import { notifyUpcoming } from '@/utils';
+import useStore from '@/store';
 
 const Navbar: FC = () => {
+  const setIsMenuOpen = useStore((state) => state.navbarSlideOver.setIsOpen);
   const domainTitle = (
     <NextLink href="/" className="text-2xl font-bold">
       WECHILL
     </NextLink>
   );
 
-  const menuButton = <IconButton boxiconName="menu" onClick={notifyUpcoming} />;
+  const menuButton = <IconButton boxiconName="menu" onClick={() => setIsMenuOpen(true)} />;
   const userProfile = (
     <IconButton
       boxiconName="user-circle"
@@ -36,7 +38,7 @@ const Navbar: FC = () => {
   );
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="sticky top-0 bg-white w-full flex justify-center z-10">
       <div className="w-full max-w-320 py-4 px-4 md:px-1 flex flex-row justify-between items-center">
         {domainTitle}
         <SearchBar

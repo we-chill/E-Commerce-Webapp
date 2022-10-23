@@ -1685,6 +1685,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@headlessui/react@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@headlessui/react@npm:1.7.3"
+  peerDependencies:
+    react: ^16 || ^17 || ^18
+    react-dom: ^16 || ^17 || ^18
+  checksum: c9391e15e63dc7e459d42125a94e22f964419c440d9f37fd85f6f501612aad42b3e30e79f712e8097c66e08891c26dcd662863e572ff21cc6cf34a3185ae4aa5
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.10.5":
   version: 0.10.7
   resolution: "@humanwhocodes/config-array@npm:0.10.7"
@@ -15200,6 +15210,7 @@ eslint-config-standard-with-typescript@latest:
   resolution: "we-chill@workspace:."
   dependencies:
     "@babel/core": ^7.19.6
+    "@headlessui/react": ^1.7.3
     "@mdx-js/react": ^1.6.22
     "@storybook/addon-actions": ^6.5.12
     "@storybook/addon-docs": ^6.5.12
