@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import Navbar from '@/layouts/Navbar';
+import Navbar, { NavbarMenuSlideOver } from '@/layouts/Navbar';
 import Script from 'next/script';
 
 export interface LayoutProps {
@@ -11,6 +11,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
+      <NavbarMenuSlideOver />
       <main className="bg-white w-screen">
         <div className="w-full h-full">{children}</div>
       </main>

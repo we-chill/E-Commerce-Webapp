@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer className="!z-20" />
       {getLayout(<Component {...pageProps} />)}
     </>
   );
