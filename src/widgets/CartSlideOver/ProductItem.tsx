@@ -9,7 +9,11 @@ export interface ProductItemProps {
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
-  const { addItemToCart, decreaseItemQuantity, removeItemFromCart } = useStore((state) => state.cart);
+  const {
+    increaseProductQuantity: increaseItemQuantity,
+    decreaseProductQuantity: decreaseItemQuantity,
+    removeProductFromCart: removeItemFromCart,
+  } = useStore((state) => state.cart);
   const image = <div className="w-[6.25rem] h-[7.5rem] bg-[#FFC3C3] rounded-[20px]" />;
 
   const productInfo = (
@@ -24,6 +28,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     <button
       type="button"
       className="w-6 h-6 self-end flex justify-center items-center rounded-full cursor-pointer hover:shadow-md"
+      onClick={() => removeItemFromCart(product.id)}
     >
       <BoxIcon name="x" />
     </button>
@@ -31,13 +36,14 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
 
   const buttonCountClassName =
     'w-3 h-3 flex justify-center items-center rounded-full cursor-pointer hover:shadow-lg hover:bg-neutral-100';
+
   const buttonDecreaseCount = (
-    <button type="button" className={buttonCountClassName}>
+    <button type="button" className={buttonCountClassName} onClick={() => decreaseItemQuantity(product.id, 1)}>
       <BoxIcon name="minus" />
     </button>
   );
   const buttonIncreaseCount = (
-    <button type="button" className={buttonCountClassName}>
+    <button type="button" className={buttonCountClassName} onClick={() => increaseItemQuantity(product.id, 1)}>
       <BoxIcon name="plus" />
     </button>
   );
