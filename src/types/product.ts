@@ -9,3 +9,7 @@ export type Product = {
 
   rating?: number;
 };
+
+export type ProductInCart = Pick<Product, 'id' | 'name' | 'title' | 'price'> & {
+  count: number;
+};

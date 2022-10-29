@@ -1,6 +1,6 @@
 import { StateCreator, StoreApi } from 'zustand';
 
-export interface NavbarSlideOverSlice {
+export interface SlideOverSlice {
   navbarSlideOver: {
     isOpen: boolean;
     setIsOpen: (isNavbarSlideOverOpened: boolean) => void;
@@ -11,11 +11,12 @@ export interface NavbarSlideOverSlice {
   };
 }
 
-const createNavbarSlideOverSlice: StateCreator<NavbarSlideOverSlice> | StoreApi<NavbarSlideOverSlice> = (set, get) => ({
+const createSlideOverSlice: StateCreator<SlideOverSlice> | StoreApi<SlideOverSlice> = (set, get) => ({
   navbarSlideOver: {
     isOpen: false,
     setIsOpen: (isNavbarSlideOverOpened) => {
       set(() => ({
+        ...get(),
         navbarSlideOver: {
           ...get().navbarSlideOver,
           isOpen: isNavbarSlideOverOpened,
@@ -27,8 +28,9 @@ const createNavbarSlideOverSlice: StateCreator<NavbarSlideOverSlice> | StoreApi<
     isOpen: false,
     setIsOpen: (isCartSlideOverOpened) => {
       set(() => ({
+        ...get(),
         cartSlideOver: {
-          ...get().cartSlideOver,
+          ...get().navbarSlideOver,
           isOpen: isCartSlideOverOpened,
         },
       }));
@@ -36,8 +38,8 @@ const createNavbarSlideOverSlice: StateCreator<NavbarSlideOverSlice> | StoreApi<
   },
 });
 
-export default createNavbarSlideOverSlice as (
-  set: StoreApi<NavbarSlideOverSlice>['setState'],
-  get: StoreApi<NavbarSlideOverSlice>['getState'],
-  api: StoreApi<NavbarSlideOverSlice>
-) => NavbarSlideOverSlice;
+export default createSlideOverSlice as (
+  set: StoreApi<SlideOverSlice>['setState'],
+  get: StoreApi<SlideOverSlice>['getState'],
+  api: StoreApi<SlideOverSlice>
+) => SlideOverSlice;
