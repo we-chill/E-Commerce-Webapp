@@ -1,3 +1,4 @@
+import useStore from '@/store';
 import { Product } from '@/types';
 import clsx from 'clsx';
 import React, { FC } from 'react';
@@ -33,9 +34,11 @@ export interface ProductModalProps {
   product: Product;
   visible: boolean;
   onClose?: () => void;
+  onClickAddToCart?: (product: Product) => void;
 }
 
-const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose }) => {
+const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose, onClickAddToCart }) => {
+  const addProductToCart = useStore((state) => state.cart.addProductToCart);
   const renderLeftSection = () => {
     const title = <div className="text-sm font-medium">{product.title ?? 'Product Title'}</div>;
     const name = <div className="text-2xl font-bold uppercase">{product.name}</div>;
@@ -100,7 +103,13 @@ const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose }) => {
     );
 
     const buttonAddToCart = (
-      <button className="py-4 px-14 max-w-[15.25rem] self-center uppercase text-xl font-semibold text-[#121212] bg-[#FFCF86] rounded-[20px] hover:shadow-md">
+      <button
+        className="py-4 px-14 max-w-[15.25rem] self-center uppercase text-xl font-semibold text-[#121212] bg-[#FFCF86] rounded-[20px] hover:shadow-md"
+        onClick={() => {
+          addProductToCart(product);
+          onClickAddToCart?.(product);
+        }}
+      >
         Add to cart
       </button>
     );

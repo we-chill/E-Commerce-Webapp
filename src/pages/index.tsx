@@ -93,6 +93,10 @@ const HomePage: NextPageWithLayout = () => {
     setIsProductModalVisible(true);
   };
 
+  const closeProductModal = () => {
+    setIsProductModalVisible(false);
+  };
+
   const productList = (
     <div className="mt-6 grid grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8">
       {MOCK_100_PRODUCTS.map((product) => (
@@ -110,7 +114,8 @@ const HomePage: NextPageWithLayout = () => {
       <ProductModal
         visible={isProductModalVisible}
         product={productShownInModal}
-        onClose={() => setIsProductModalVisible(false)}
+        onClose={closeProductModal}
+        onClickAddToCart={() => closeProductModal()}
       />
     </div>
   );

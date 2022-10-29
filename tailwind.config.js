@@ -27,6 +27,9 @@ module.exports = {
           position: 'sticky',
           top: '7.25rem',
         },
+        '.sidebar__product-list': {
+          maxHeight: 'calc(100vh - 326px)',
+        },
       });
     }),
   ],
