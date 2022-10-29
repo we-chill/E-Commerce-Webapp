@@ -8,6 +8,7 @@ import useStore from '@/store';
 
 const Navbar: FC = () => {
   const setIsMenuOpen = useStore((state) => state.navbarSlideOver.setIsOpen);
+  const setIsCartSlideOverOpen = useStore((state) => state.cartSlideOver.setIsOpen);
   const domainTitle = (
     <NextLink href="/" className="text-2xl font-bold">
       WECHILL
@@ -24,7 +25,7 @@ const Navbar: FC = () => {
       onClick={notifyUpcoming}
     />
   );
-  const cartButton = <IconButton boxiconName="cart" onClick={notifyUpcoming} />;
+  const cartButton = <IconButton boxiconName="cart" onClick={() => setIsCartSlideOverOpen(true)} />;
 
   const languageIndicator = <div className="font-medium">US</div>;
 
