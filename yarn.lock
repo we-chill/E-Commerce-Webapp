@@ -12554,6 +12554,15 @@ eslint-config-standard-with-typescript@latest:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.38.0":
+  version: 7.38.0
+  resolution: "react-hook-form@npm:7.38.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 16d5f117e39ec09f73def706fb4e189aa11e19191231082fe7e15481701beb2b81260581012db8939799d8011a6132561659dd864b08270691353e134c4f06b0
+  languageName: node
+  linkType: hard
+
 "react-inspector@npm:^5.1.0":
   version: 5.1.1
   resolution: "react-inspector@npm:5.1.1"
@@ -15249,6 +15258,7 @@ eslint-config-standard-with-typescript@latest:
     prettier: 2.7.1
     react: 18.2.0
     react-dom: 18.2.0
+    react-hook-form: ^7.38.0
     react-toastify: ^9.0.8
     react-tooltip: ^4.4.2
     tailwindcss: 3.1.8
