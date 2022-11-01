@@ -1,4 +1,5 @@
 export { default as BoxIcon } from './BoxIcon';
+export { default as Button } from './Button';
 export { default as IconButton } from './IconButton';
 
 export * from './Link';

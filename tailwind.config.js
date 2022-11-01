@@ -30,6 +30,12 @@ module.exports = {
         '.sidebar__product-list': {
           maxHeight: 'calc(100vh - 326px)',
         },
+        '.flying-hello': {
+          position: 'absolute',
+          top: 'calc(50% - 135px/2)',
+          left: 'calc(50% - 367px/2)',
+          transition: 'all .5s ease-in',
+        },
       });
     }),
   ],

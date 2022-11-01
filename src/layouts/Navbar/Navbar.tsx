@@ -3,10 +3,13 @@ import NextLink from 'next/link';
 
 import { IconButton, SearchBar } from '@/components';
 import { BoxIconType } from '@/components/BoxIcon/BoxIcon';
-import { notifyUpcoming } from '@/utils';
+import { getCookie, notify, notifyUpcoming } from '@/utils';
 import useStore from '@/store';
+import { useRouter } from 'next/router';
+import { Routes, UserInfoCookieKeys } from '@/constants';
 
 const Navbar: FC = () => {
+  const router = useRouter();
   const setIsMenuOpen = useStore((state) => state.navbarSlideOver.setIsOpen);
   const setIsCartSlideOverOpen = useStore((state) => state.cartSlideOver.setIsOpen);
   const domainTitle = (
@@ -16,13 +19,26 @@ const Navbar: FC = () => {
   );
 
   const menuButton = <IconButton boxiconName="menu" onClick={() => setIsMenuOpen(true)} />;
+
+  const navigateToLoginPage = () => {
+    router.push(Routes.login);
+  };
+  const onUserProfileClick = () => {
+    const userEmail = getCookie(UserInfoCookieKeys.email);
+    const hasUserLoggedIn = typeof userEmail !== 'undefined' && userEmail.trim() !== '';
+    if (hasUserLoggedIn) {
+      notify("You've already logged in.", { type: 'info' });
+      return;
+    }
+    navigateToLoginPage();
+  };
   const userProfile = (
     <IconButton
       boxiconName="user-circle"
       boxiconProps={{
         type: BoxIconType.SOLID,
       }}
-      onClick={notifyUpcoming}
+      onClick={onUserProfileClick}
     />
   );
   const cartButton = <IconButton boxiconName="cart" onClick={() => setIsCartSlideOverOpen(true)} />;
