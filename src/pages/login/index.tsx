@@ -117,7 +117,7 @@ const LoginPage: FC = () => {
   const signUpSection = (
     <div className="mt-6 text-center">
       Don’t have an account?{' '}
-      <Link href={Routes.home} className="hover:text-blue-700">
+      <Link href={Routes.createAccount} className="hover:text-blue-700">
         Sign up here
       </Link>
     </div>

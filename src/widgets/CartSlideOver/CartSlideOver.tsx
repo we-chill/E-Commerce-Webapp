@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { SlideOver } from '@/components';
+import { Link, SlideOver } from '@/components';
 import useStore from '@/store';
 import ProductItem from './ProductItem';
 import clsx from 'clsx';
+import { Routes } from '@/constants';
 
 const CartSlideOver = () => {
   const { isOpen, setIsOpen } = useStore((state) => state.cartSlideOver);
@@ -23,7 +24,8 @@ const CartSlideOver = () => {
   const cartTotalPrice = <div className="text-[28px] font-bold text-black">TOTAL: ${totalPrice}</div>;
 
   const buttonPay = (
-    <button
+    <Link
+      href={Routes.shoppingCart}
       className={clsx([
         'px-[4.875rem] py-4 rounded-[20px] bg-[#FFCF86] text-xl font-bold color-[#121212]',
         !hasAnyItemInCart ? 'opacity-50' : '',
@@ -31,7 +33,7 @@ const CartSlideOver = () => {
       disabled={!hasAnyItemInCart}
     >
       Pay Now
-    </button>
+    </Link>
   );
 
   return (

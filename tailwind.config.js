@@ -30,6 +30,9 @@ module.exports = {
         '.sidebar__product-list': {
           maxHeight: 'calc(100vh - 326px)',
         },
+        '.heightAvoidNavBar': {
+          height: 'calc(100vh - 7.25rem)',
+        },
         '.flying-hello': {
           position: 'absolute',
           top: 'calc(50% - 135px/2)',
