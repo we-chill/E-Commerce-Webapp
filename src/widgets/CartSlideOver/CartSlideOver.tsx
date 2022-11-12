@@ -42,7 +42,7 @@ const CartSlideOver = () => {
       <div className="flex flex-col">
         {title}
         {productList}
-        <div className="mt-2 flex flex-col items-center gap-[89px]">
+        <div className="mt-2 flex flex-col items-center gap-[32px]">
           {cartTotalPrice}
           {buttonPay}
         </div>

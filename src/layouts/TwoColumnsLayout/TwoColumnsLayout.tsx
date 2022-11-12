@@ -10,8 +10,8 @@ const HomeLayout: FC<TwoColumnsLayoutProps> = ({ children, RightSidebar }) => {
     <>
       <div className="mt-8 mb-52 w-screen heightAvoidNavBar max-h-[50rem] flex flex-col items-center">
         <div className="w-full max-w-320 h-full grid grid-cols-10">
-          <div className="col-span-6">{children}</div>
-          <div className="col-span-4">{RightSidebar}</div>
+          <div className="col-span-6 pr-4">{children}</div>
+          <div className="col-span-4 pl-1">{RightSidebar}</div>
         </div>
       </div>
     </>
