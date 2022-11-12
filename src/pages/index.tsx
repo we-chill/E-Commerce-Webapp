@@ -4,9 +4,10 @@ import { NextPageWithLayout, Product } from '@/types';
 import { BoxIcon, ProductModal } from '@/components';
 import clsx from 'clsx';
 import useStore from '@/store';
-import { EMPTY_PRODUCT, HomePageSectionType, MOCK_100_PRODUCTS } from '@/constants';
+import { EMPTY_PRODUCT, HomePageSectionType } from '@/constants';
 import ProductCard from '@/components/ProductCard';
 import { notifyUpcoming } from '@/utils';
+import { MOCK_PRODUCTS } from 'mocks';
 
 const TitleDictionary: Record<HomePageSectionType, string> = {
   [HomePageSectionType.HOME]: 'Home',
@@ -99,7 +100,7 @@ const HomePage: NextPageWithLayout = () => {
 
   const productList = (
     <div className="mt-6 grid grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8">
-      {MOCK_100_PRODUCTS.map((product) => (
+      {MOCK_PRODUCTS.map((product) => (
         <ProductCard key={product.name + product.id} product={product} onClick={onProductCardClick} />
       ))}
     </div>
