@@ -31,6 +31,7 @@ const CartSlideOver = () => {
         !hasAnyItemInCart ? 'opacity-50' : '',
       ])}
       disabled={!hasAnyItemInCart}
+      onClick={() => setIsOpen(false)}
     >
       Pay Now
     </Link>
