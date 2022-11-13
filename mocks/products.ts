@@ -36,7 +36,7 @@ const makeProducts = (length: number) => {
 
 const MOCK_PRODUCTS = makeProducts(1000);
 
-const MOCK_NUM_OF_PRODUCTS_IN_CART = 12;
+const MOCK_NUM_OF_PRODUCTS_IN_CART = 50;
 const MOCK_PRODUCTS_IN_CART: ProductInCart[] = MOCK_PRODUCTS.slice(0, MOCK_NUM_OF_PRODUCTS_IN_CART).map((product) => ({
   ...product,
   count: faker.datatype.number({

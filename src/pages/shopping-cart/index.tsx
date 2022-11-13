@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement, useMemo } from 'react';
 import {
   ColumnDef,
   flexRender,
@@ -13,6 +13,7 @@ import { Layout, TwoColumnLayout } from '@/layouts';
 import { NextPageWithLayout, ProductInCart } from '@/types';
 import useStore from '@/store';
 import clsx from 'clsx';
+import { getPaginationArray } from '@/utils/table';
 
 const ShoppingCartPage: NextPageWithLayout = () => {
   const { itemListAndQuantity, increaseProductQuantity, decreaseProductQuantity } = useStore((state) => state.cart);
@@ -46,6 +47,11 @@ const ShoppingCartPage: NextPageWithLayout = () => {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
     //
     debugTable: true,
   });
@@ -57,6 +63,66 @@ const ShoppingCartPage: NextPageWithLayout = () => {
       <BoxIcon name="chevron-left" size="sm" />
       <span className="ml-2 text-sm font-medium">Back</span>
     </Button>
+  );
+
+  const currentNumOfShownItems = table.getRowModel().rows.length;
+  const totalItems = Object.keys(itemListAndQuantity).length;
+  const currentPage = table.getState().pagination.pageIndex;
+  const totalPages = table.getPageCount();
+
+  const isCurrentPage = (pageIndex: number) => pageIndex === currentPage;
+  const buttonPageClassName = (pageIndex: number) => {
+    const disableHoverEffect = pageIndex === -1;
+    return clsx([
+      'w-8 h-8 rounded-full flex items-center justify-center font-semibold',
+      isCurrentPage(pageIndex) ? 'bg-[#0B808F] text-white' : 'text-[#0B808F]',
+      disableHoverEffect ? '' : 'cursor-pointer hover:shadow-lg',
+    ]);
+  };
+
+  const ButtonPage: FC<{ pageIndex: number }> = ({ pageIndex }) => {
+    const isRenderingDots = pageIndex === -1;
+    return (
+      <div
+        className={buttonPageClassName(pageIndex)}
+        onClick={() => {
+          if (!isRenderingDots) {
+            table.setPageIndex(pageIndex);
+          }
+        }}
+      >
+        {isRenderingDots ? '...' : pageIndex + 1}
+      </div>
+    );
+  };
+
+  const pagination = (
+    <div className="flex justify-between">
+      <div className="flex items-center text-sm text-[#747474]">
+        {currentNumOfShownItems} of {totalItems} items
+      </div>
+      <div className="flex gap-2">
+        {getPaginationArray({ totalPages, currentPageIndex: currentPage }).map((pageIndex, id) => (
+          <ButtonPage key={`pagination-001-${pageIndex}-${id}`} pageIndex={pageIndex} />
+        ))}
+      </div>
+      <div className="pr-4 flex items-center">
+        Show
+        <select
+          className="ml-3 text-[#0B808F] font-semibold"
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+        >
+          {[5, 10, 20, 30].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              {pageSize} rows
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
   );
 
   const basePadding = 'px-3 py-5';
@@ -130,6 +196,8 @@ const ShoppingCartPage: NextPageWithLayout = () => {
             })}
           </tbody>
         </table>
+        <div className="h-6" />
+        {pagination}
       </div>
       {buttonBack}
     </div>
