@@ -65,7 +65,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
   return (
     <div className={clsx(['px-4 py-3 w-full bg-white rounded-[20px] shadow-lg', 'flex'])}>
       {image}
-      <div className="ml-5 h-full flex flex-col">{productInfo}</div>
+      <div className="ml-5 h-full flex flex-col flex-grow">{productInfo}</div>
       {actionSection}
     </div>
   );
