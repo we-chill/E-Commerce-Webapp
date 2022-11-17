@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { REGEX_VALIDATE_EMAIL, Routes, UserInfoCookieKeys, UserInfoValidation } from '@/constants';
-import { getAuthExpiredDate, notifyUpcoming, saveCookie } from '@/utils';
+import { getAuthExpiredDate, saveCookie } from '@/utils';
 import { NextPageWithLayout } from '@/types';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, ReactElement } from 'react';
@@ -27,10 +27,8 @@ const CreateAccountPage: NextPageWithLayout = () => {
     formState: { errors },
   } = useForm<CreateAccountInputs>();
 
-  const title = <div className="text-5xl font-medium">Welcome to our shop</div>;
-  const subTitle = (
-    <div className="mt-1 text-lg font-medium text-[#2B2B2B80]">Please enter your contact details to connect.</div>
-  );
+  const title = <div className="text-5xl font-medium">New in</div>;
+  const subTitle = <div className="mt-1 text-lg font-medium text-[#12121280]">Account? Log in</div>;
 
   const navigateToLandingPage = () => {
     router.replace(Routes.landingPage);
@@ -132,7 +130,7 @@ const CreateAccountPage: NextPageWithLayout = () => {
   );
 
   const signUpForm = (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-6 w-full">
       {emailInput}
       <div className="mt-6">{passwordInput}</div>
       <div className="mt-6">{phoneInput}</div>
@@ -145,13 +143,21 @@ const CreateAccountPage: NextPageWithLayout = () => {
           </label>
         </div>
       </div>
-      <div className="mt-6 flex flex-col gap-4">
-        <Button type="submit" className="w-full bg-[#FFCF86]">
-          Sign Up
+      <div className="mt-6 flex justify-between gap-4">
+        <Button
+          disableBaseClassName={true}
+          type="submit"
+          className="w-[200px] block rounded-3xl bg-[#FFCF86] font-semibold"
+          onClick={navigateToLandingPage}
+        >
+          {'<'} Continue shopping
         </Button>
-        <Button className="w-full border-[#D7D7D7] flex justify-center gap-2" onClick={notifyUpcoming}>
-          <img src="/icon-google.svg" alt="google-icon" />
-          Sign up with Google
+        <Button
+          disableBaseClassName={true}
+          type="submit"
+          className="w-[200px] block rounded-3xl border-[#4c4c4c] border-2 flex justify-center gap-2 font-semibold"
+        >
+          Next
         </Button>
       </div>
     </form>
@@ -159,11 +165,8 @@ const CreateAccountPage: NextPageWithLayout = () => {
 
   return (
     <div>
-      <div className="absolute top-[77px] left-8">
-        <span className="text-[32px] font-bold">Wechill</span>
-      </div>
       <div className="h-full flex-grow flex justify-center items-center">
-        <div className="w-full max-w-[23.75rem]">
+        <div className="w-full max-w-[40rem]">
           {title}
           {subTitle}
           {signUpForm}
