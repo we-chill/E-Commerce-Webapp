@@ -1,4 +1,4 @@
-import { Button } from '@/components';
+import { BoxIcon, Button } from '@/components';
 import { REGEX_VALIDATE_EMAIL, Routes, UserInfoCookieKeys, UserInfoValidation } from '@/constants';
 import { getAuthExpiredDate, saveCookie } from '@/utils';
 import { NextPageWithLayout } from '@/types';
@@ -147,10 +147,10 @@ const CreateAccountPage: NextPageWithLayout = () => {
         <Button
           disableBaseClassName={true}
           type="submit"
-          className="w-[200px] block rounded-3xl bg-[#FFCF86] font-semibold"
+          className="w-[200px] flex block rounded-3xl bg-[#FFCF86] font-semibold"
           onClick={navigateToLandingPage}
         >
-          {'<'} Continue shopping
+          <BoxIcon name="chevron-left" /> Continue shopping
         </Button>
         <Button
           disableBaseClassName={true}
