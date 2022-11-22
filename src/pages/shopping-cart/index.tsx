@@ -1,4 +1,6 @@
 import React, { FC, ReactElement, ReactNode, useMemo, useState } from 'react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { Routes } from '@/constants';
 import {
   ColumnDef,
   flexRender,
@@ -16,6 +18,7 @@ import clsx from 'clsx';
 import { getPaginationArray } from '@/utils/table';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { notifyUpcoming, saveCookie } from '@/utils';
+import { useRouter } from 'next/router';
 
 const sharedInputClassName = 'mt-2 p-3 w-full border-[#D7D7D7] border-2 rounded-lg shadow-sm bg-transparent';
 
@@ -220,6 +223,7 @@ type CardInputs = {
 
 ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
   const [isPayment, setIsPayment] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -310,13 +314,50 @@ ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
     setIsPayment(true);
   };
 
+  const payPalButton = (
+    <PayPalScriptProvider
+      options={{
+        'client-id': 'Ae0hsMHQSEQ4MnjdNVjWUZ_j_GXRGX7EOe1ILeS5qP6f6nw1zBfJwW1vGS22w-HKAkFLi3gJ85Yu1m2y',
+        currency: 'USD',
+      }}
+    >
+      <PayPalButtons
+        createOrder={(data, actions) => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                amount: {
+                  value: '1.99',
+                },
+              },
+            ],
+          });
+        }}
+        onApprove={(data, actions) => {
+          return actions.order.capture().then((details) => {
+            //Phần này sau khi thanh toán xong em nghĩ nên set một đơn hàng vô localstorage
+            const transaction = details.purchase_units[0].payments.captures[0];
+            if (transaction.status === 'COMPLETED') {
+              alert(`Giao dịch thành công. Trở về trang chủ sau 3 giây`);
+              setTimeout(() => {
+                router.replace(Routes.landingPage);
+              }, 3000);
+            } else {
+              alert('Giao dịch thất bại vui lòng thử lại');
+            }
+          });
+        }}
+      />
+    </PayPalScriptProvider>
+  );
+
   const paymentForm = (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-6 w-full">
       <div className="mt-4">{nameInput}</div>
       <div className="mt-4">{numberInput}</div>
       <div className="mt-4">{expInput}</div>
       <div className="mt-4">{passwordInput}</div>
-      <div className="mt-4 flex justify-between gap-4">
+      <div className="mt-4 flex justify-between flex-col gap-4">
         <Button
           disableBaseClassName={true}
           type="submit"
@@ -324,6 +365,7 @@ ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
         >
           Proceed to confirm
         </Button>
+        {payPalButton}
       </div>
     </form>
   );
