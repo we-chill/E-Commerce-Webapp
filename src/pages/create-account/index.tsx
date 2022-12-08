@@ -34,12 +34,39 @@ const CreateAccountPage: NextPageWithLayout = () => {
     router.replace(Routes.landingPage);
   };
 
+  const navigateToLoginPage = () => {
+    router.replace(Routes.login);
+  };
+
   const Error: FC<{ children: ReactNode }> = ({ children }) => <span className="mt-1 text-red-500">{children}</span>;
 
-  const onSubmit: SubmitHandler<CreateAccountInputs> = (data) => {
+  const onSubmit: SubmitHandler<CreateAccountInputs> = async (data) => {
     const shouldRememberLogin = data.rememberLogin;
     const expectedExpiredDate = getAuthExpiredDate();
     const expires = !shouldRememberLogin ? expectedExpiredDate.toUTCString() : '';
+    // try {
+    //   const response = await axios.post(
+    //     'http://127.0.0.1:8000/profiles/register',
+    //     {
+    //       username: data.email,
+    //       password: data.password,
+    //       email: data.email,
+    //       first_name: 'user3',
+    //       last_name: 'test',
+    //     },
+    //     {
+    //       headers: {
+    //         // Overwrite Axios's automatically set Content-Type
+    //         'Content-Type': 'application/json',
+    //       },
+    //     }
+    //   );
+    // } catch (error) {
+    //   // navigateToLoginPage();
+    //   console.log(error);
+    //   notifyWrongLogin();
+    // }
+
     saveCookie(UserInfoCookieKeys.email, data.email, expires);
     saveCookie(UserInfoCookieKeys.password, data.password, expires);
     navigateToLandingPage();

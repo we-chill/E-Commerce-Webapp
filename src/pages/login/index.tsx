@@ -36,6 +36,8 @@ const LoginPage: FC = () => {
     const expires = !shouldRememberLogin ? expectedExpiredDate.toUTCString() : '';
     saveCookie(UserInfoCookieKeys.email, data.email, expires);
     saveCookie(UserInfoCookieKeys.password, data.password, expires);
+    localStorage.setItem('refresh', 'test');
+    localStorage.setItem('access', 'test');
     navigateToLandingPage();
   };
 

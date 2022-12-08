@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactNode, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useState, useEffect } from 'react';
 import { HomeLayout, Layout, Sidebar } from '@/layouts';
 import { NextPageWithLayout, Product } from '@/types';
 import { BoxIcon, ProductModal } from '@/components';
@@ -7,7 +7,7 @@ import useStore from '@/store';
 import { EMPTY_PRODUCT, HomePageSectionType } from '@/constants';
 import ProductCard from '@/components/ProductCard';
 import { notifyUpcoming } from '@/utils';
-import { MOCK_PRODUCTS } from 'mocks';
+import axios from 'axios';
 
 const TitleDictionary: Record<HomePageSectionType, string> = {
   [HomePageSectionType.HOME]: 'Home',
@@ -19,7 +19,24 @@ const HomePage: NextPageWithLayout = () => {
   const homePageSection = useStore((state) => state.homePage.activeSection);
 
   const [isProductModalVisible, setIsProductModalVisible] = useState(false);
+  const [productLs, setProductLs] = useState([]);
   const [productShownInModal, setProductShownInModal] = useState<Product>(EMPTY_PRODUCT);
+
+  // useEffect =
+  //   (async () => {
+  //     const res = await axios.get('http://127.0.0.1:8000/products');
+  //     console.log(res);
+  //   },
+  //   []);
+
+  useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      const response = await axios.get('http://127.0.0.1:8000/products/?format=json');
+      setProductLs(response.data);
+    }
+    fetchData();
+  }, []);
 
   const title = (
     <div
@@ -100,8 +117,8 @@ const HomePage: NextPageWithLayout = () => {
 
   const productList = (
     <div className="mt-6 grid grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8">
-      {MOCK_PRODUCTS.map((product) => (
-        <ProductCard key={product.name + product.id} product={product} onClick={onProductCardClick} />
+      {productLs.map((product) => (
+        <ProductCard key={product.id} product={product} onClick={onProductCardClick} />
       ))}
     </div>
   );

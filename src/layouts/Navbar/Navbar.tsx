@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 
 import { IconButton, SearchBar } from '@/components';
 import { BoxIconType } from '@/components/BoxIcon/BoxIcon';
-import { getCookie, notify, notifyUpcoming } from '@/utils';
+import { getCookie, notify, notifyUpcoming, saveCookie } from '@/utils';
 import useStore from '@/store';
 import { useRouter } from 'next/router';
 import { Routes, UserInfoCookieKeys } from '@/constants';
@@ -27,7 +27,11 @@ const Navbar: FC = () => {
     const userEmail = getCookie(UserInfoCookieKeys.email);
     const hasUserLoggedIn = typeof userEmail !== 'undefined' && userEmail.trim() !== '';
     if (hasUserLoggedIn) {
-      notify("You've already logged in.", { type: 'info' });
+      if (confirm('Do you want to logout') == true) {
+        saveCookie(UserInfoCookieKeys.email, '', '');
+      } else {
+        notify("You've already logged in.", { type: 'info' });
+      }
       return;
     }
     navigateToLoginPage();

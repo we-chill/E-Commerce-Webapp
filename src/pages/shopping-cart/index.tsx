@@ -23,7 +23,9 @@ import { useRouter } from 'next/router';
 const sharedInputClassName = 'mt-2 p-3 w-full border-[#D7D7D7] border-2 rounded-lg shadow-sm bg-transparent';
 
 const ShoppingCartPage: NextPageWithLayout = () => {
-  const { itemListAndQuantity, increaseProductQuantity, decreaseProductQuantity } = useStore((state) => state.cart);
+  const { itemListAndQuantity, increaseProductQuantity, decreaseProductQuantity, totalPrice } = useStore(
+    (state) => state.cart
+  );
   const data = useMemo(() => Object.values(itemListAndQuantity), [itemListAndQuantity]);
   const columns = useMemo<ColumnDef<ProductInCart>[]>(
     () => [
@@ -63,10 +65,16 @@ const ShoppingCartPage: NextPageWithLayout = () => {
     debugTable: true,
   });
 
+  const router = useRouter();
+
+  const navigateToLandingPage = () => {
+    router.replace(Routes.landingPage);
+  };
+
   const title = <div className="text-[52px] font-bold">Shopping Cart</div>;
 
   const buttonBack = (
-    <Button type="submit" className="bg-[#FFCF86] rounded-[40px]">
+    <Button type="submit" className="bg-[#FFCF86] rounded-[40px]" onClick={navigateToLandingPage}>
       <BoxIcon name="chevron-left" size="sm" />
       <span className="ml-2 text-sm font-medium">Back</span>
     </Button>
@@ -224,6 +232,7 @@ type CardInputs = {
 ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
   const [isPayment, setIsPayment] = useState(false);
   const router = useRouter();
+  const { totalPrice } = useStore((state) => state.cart);
 
   const {
     register,
@@ -327,7 +336,7 @@ ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
             purchase_units: [
               {
                 amount: {
-                  value: '1.99',
+                  value: totalPrice.toString(),
                 },
               },
             ],
@@ -375,7 +384,7 @@ ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
       <div className="font-bold text-xl text-center w-full">Payment info</div>
       <div className="mt-4">
         <h6 className="font-semibold text-lg">Total price</h6>
-        <span className=" font-semibold text-3xl">350$</span>
+        <span className=" font-semibold text-3xl">${totalPrice}</span>
         <div className="mt-3">
           <h6 className="font-bold">Payment method</h6>
           <div className="flex gap-2">

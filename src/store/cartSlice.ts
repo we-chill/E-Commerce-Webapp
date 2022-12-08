@@ -1,7 +1,6 @@
 import { StateCreator, StoreApi } from 'zustand';
 
 import { Product, ProductInCart } from '@/types';
-import { MOCK_ITEM_LIST_AND_QUANTITY, MOCK_TOTAL_PRICE } from 'mocks';
 
 type CartItemListAndQuantity = {
   [id: Product['id']]: ProductInCart;
@@ -20,8 +19,8 @@ export interface CartSlice {
 
 const createCartSlice: StateCreator<CartSlice> | StoreApi<CartSlice> = (set, get) => ({
   cart: {
-    totalPrice: MOCK_TOTAL_PRICE,
-    itemListAndQuantity: MOCK_ITEM_LIST_AND_QUANTITY,
+    totalPrice: 0,
+    itemListAndQuantity: [],
     addProductToCart: (product) => {
       const newItemListAndQuantity = {
         ...get().cart.itemListAndQuantity,
@@ -36,7 +35,7 @@ const createCartSlice: StateCreator<CartSlice> | StoreApi<CartSlice> = (set, get
         ...product,
         count: 1,
       };
-      const newTotalPrice = get().cart.totalPrice + product.price;
+      const newTotalPrice = get().cart.totalPrice + Number(product.price);
       set(() => ({
         cart: {
           ...get().cart,
@@ -60,7 +59,7 @@ const createCartSlice: StateCreator<CartSlice> | StoreApi<CartSlice> = (set, get
 
       item.count += quantity;
       newItemListAndQuantity[id] = item;
-      const newTotalPrice = get().cart.totalPrice + item.price * quantity;
+      const newTotalPrice = get().cart.totalPrice + Number(item.price) * quantity;
       set(() => ({
         cart: {
           ...get().cart,
@@ -90,10 +89,10 @@ const createCartSlice: StateCreator<CartSlice> | StoreApi<CartSlice> = (set, get
       let newTotalPrice = get().cart.totalPrice;
       if (item.count <= 0) {
         delete newItemListAndQuantity[id];
-        newTotalPrice -= prevCount * item.price;
+        newTotalPrice -= prevCount * Number(item.price);
       } else {
         newItemListAndQuantity[id] = item;
-        newTotalPrice -= quantity * item.price;
+        newTotalPrice -= quantity * Number(item.price);
       }
 
       set(() => ({

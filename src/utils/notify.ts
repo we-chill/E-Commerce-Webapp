@@ -15,3 +15,9 @@ export const notifyUpcoming = () => {
     type: 'default',
   });
 };
+
+export const notifyWrongLogin = () => {
+  notify('Wrong password or username 👋', {
+    type: 'default',
+  });
+};
