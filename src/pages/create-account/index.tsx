@@ -1,12 +1,13 @@
 import { BoxIcon, Button } from '@/components';
-import { REGEX_VALIDATE_EMAIL, Routes, UserInfoCookieKeys, UserInfoValidation } from '@/constants';
-import { getAuthExpiredDate, saveCookie } from '@/utils';
+import { REGEX_VALIDATE_EMAIL, Routes, UserInfoValidation } from '@/constants';
+import { getAuthExpiredDate, notify } from '@/utils';
 import { NextPageWithLayout } from '@/types';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, ReactElement } from 'react';
 import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Layout, TwoColumnLayout } from '@/layouts';
+import axios from 'axios';
 
 type CreateAccountInputs = {
   name: string;
@@ -44,32 +45,37 @@ const CreateAccountPage: NextPageWithLayout = () => {
     const shouldRememberLogin = data.rememberLogin;
     const expectedExpiredDate = getAuthExpiredDate();
     const expires = !shouldRememberLogin ? expectedExpiredDate.toUTCString() : '';
-    // try {
-    //   const response = await axios.post(
-    //     'http://127.0.0.1:8000/profiles/register',
-    //     {
-    //       username: data.email,
-    //       password: data.password,
-    //       email: data.email,
-    //       first_name: 'user3',
-    //       last_name: 'test',
-    //     },
-    //     {
-    //       headers: {
-    //         // Overwrite Axios's automatically set Content-Type
-    //         'Content-Type': 'application/json',
-    //       },
-    //     }
-    //   );
-    // } catch (error) {
-    //   // navigateToLoginPage();
-    //   console.log(error);
-    //   notifyWrongLogin();
-    // }
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/profiles/register/',
+        {
+          username: data.email,
+          password: data.password,
+          email: data.email,
+          first_name: 'user3',
+          last_name: 'test',
+        },
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (response.data) {
+        notify('Sign up successfully', { type: 'success' });
+        navigateToLoginPage();
+      }
+    } catch (error) {
+      const errorMessage = error.response.data;
+      Object.keys(errorMessage).forEach(function (key, index) {
+        notify(errorMessage[key][0], { type: 'error' });
+      });
+    }
 
-    saveCookie(UserInfoCookieKeys.email, data.email, expires);
-    saveCookie(UserInfoCookieKeys.password, data.password, expires);
-    navigateToLandingPage();
+    // saveCookie(UserInfoCookieKeys.email, data.email, expires);
+    // saveCookie(UserInfoCookieKeys.password, data.password, expires);
+    // navigateToLandingPage();
   };
 
   const emailInput = (

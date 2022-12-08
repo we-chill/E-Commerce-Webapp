@@ -23,12 +23,16 @@ const Navbar: FC = () => {
   const navigateToLoginPage = () => {
     router.push(Routes.login);
   };
-  const onUserProfileClick = () => {
+  const onUserProfileClick = async () => {
     const userEmail = getCookie(UserInfoCookieKeys.email);
     const hasUserLoggedIn = typeof userEmail !== 'undefined' && userEmail.trim() !== '';
     if (hasUserLoggedIn) {
-      if (confirm('Do you want to logout') == true) {
-        saveCookie(UserInfoCookieKeys.email, '', '');
+      if (confirm('Do you want to logout') === true) {
+        try {
+          saveCookie(UserInfoCookieKeys.email, '', '');
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         notify("You've already logged in.", { type: 'info' });
       }

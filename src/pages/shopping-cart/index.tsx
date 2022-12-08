@@ -1,6 +1,6 @@
-import React, { FC, ReactElement, ReactNode, useMemo, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useMemo, useState, useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { Routes } from '@/constants';
+import { Routes, UserInfoCookieKeys } from '@/constants';
 import {
   ColumnDef,
   flexRender,
@@ -17,7 +17,7 @@ import useStore from '@/store';
 import clsx from 'clsx';
 import { getPaginationArray } from '@/utils/table';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { notifyUpcoming, saveCookie } from '@/utils';
+import { getCookie, notifyUpcoming, saveCookie } from '@/utils';
 import { useRouter } from 'next/router';
 
 const sharedInputClassName = 'mt-2 p-3 w-full border-[#D7D7D7] border-2 rounded-lg shadow-sm bg-transparent';
@@ -26,6 +26,23 @@ const ShoppingCartPage: NextPageWithLayout = () => {
   const { itemListAndQuantity, increaseProductQuantity, decreaseProductQuantity, totalPrice } = useStore(
     (state) => state.cart
   );
+
+  const navigateToLoginPage = () => {
+    router.push(Routes.login);
+  };
+
+  useEffect(() => {
+    const checkLogin = () => {
+      const userEmail = getCookie(UserInfoCookieKeys.email);
+      const hasUserLoggedIn = typeof userEmail !== 'undefined' && userEmail.trim() !== '';
+      if (hasUserLoggedIn) {
+        return;
+      } else {
+        navigateToLoginPage();
+      }
+    };
+    checkLogin();
+  }, []);
   const data = useMemo(() => Object.values(itemListAndQuantity), [itemListAndQuantity]);
   const columns = useMemo<ColumnDef<ProductInCart>[]>(
     () => [

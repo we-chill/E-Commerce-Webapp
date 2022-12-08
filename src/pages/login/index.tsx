@@ -1,11 +1,12 @@
 import { Button, Link } from '@/components';
 import { REGEX_VALIDATE_EMAIL, Routes, UserInfoCookieKeys, UserInfoValidation } from '@/constants';
-import { getAuthExpiredDate, notifyUpcoming, saveCookie } from '@/utils';
+import { getAuthExpiredDate, notify, notifyUpcoming, saveCookie } from '@/utils';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
 
 type LoginInputs = {
   email: string;
@@ -30,15 +31,42 @@ const LoginPage: FC = () => {
     router.replace(Routes.landingPage);
   };
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
     const shouldRememberLogin = data.rememberLogin;
     const expectedExpiredDate = getAuthExpiredDate();
     const expires = !shouldRememberLogin ? expectedExpiredDate.toUTCString() : '';
-    saveCookie(UserInfoCookieKeys.email, data.email, expires);
-    saveCookie(UserInfoCookieKeys.password, data.password, expires);
-    localStorage.setItem('refresh', 'test');
-    localStorage.setItem('access', 'test');
-    navigateToLandingPage();
+    // saveCookie(UserInfoCookieKeys.email, data.email, expires);
+    // saveCookie(UserInfoCookieKeys.password, data.password, expires);
+    // localStorage.setItem('refresh', 'test');
+    // localStorage.setItem('access', 'test');
+    // navigateToLandingPage();
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/token/',
+        {
+          username: data.email,
+          password: data.password,
+        },
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (response.data) {
+        notify('Sign up successfully', { type: 'success' });
+        localStorage.setItem('refresh', response.data.refresh);
+        localStorage.setItem('access', response.data.access);
+        const expectedExpiredDate = getAuthExpiredDate();
+        const expires = !shouldRememberLogin ? expectedExpiredDate.toUTCString() : '';
+        saveCookie(UserInfoCookieKeys.email, data.email, expires);
+        saveCookie(UserInfoCookieKeys.password, data.password, expires);
+        navigateToLandingPage();
+      }
+    } catch (error) {
+      notify('Email or password was wrong!', { type: 'error' });
+    }
   };
 
   const sharedInputClassName = 'mt-2 p-3 w-full border-[#D7D7D7] border-2 rounded-lg shadow-sm';

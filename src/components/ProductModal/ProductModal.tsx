@@ -1,5 +1,6 @@
 import useStore from '@/store';
 import { Product } from '@/types';
+import { notify } from '@/utils';
 import clsx from 'clsx';
 import React, { FC } from 'react';
 import BoxIcon from '../BoxIcon';
@@ -108,6 +109,7 @@ const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose, onClic
         onClick={() => {
           addProductToCart(product);
           onClickAddToCart?.(product);
+          notify('Add to card successfully!', { type: 'success' });
         }}
       >
         Add to cart
