@@ -21,7 +21,8 @@ type CardInputs = {
 
 const RightSidebar = () => {
   const router = useRouter();
-  const { totalPrice } = useStore((state) => state.cart);
+  const { totalPrice, itemListAndQuantity } = useStore((state) => state.cart);
+  const shouldDisablePayment = totalPrice <= 0 || Object.keys(itemListAndQuantity).length < 1;
 
   const [isPayment, setIsPayment] = useState(false);
 
@@ -122,6 +123,7 @@ const RightSidebar = () => {
       }}
     >
       <PayPalButtons
+        disabled={shouldDisablePayment}
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [
@@ -172,9 +174,13 @@ const RightSidebar = () => {
       <div className="mt-4">{passwordInput}</div>
       <div className="mt-4 flex justify-between flex-col gap-4">
         <Button
+          disabled={shouldDisablePayment}
           disableBaseClassName={true}
           type="submit"
-          className="w-full bg-white xl border-2 flex justify-center gap-2 font-semibold"
+          className={clsx([
+            'w-full bg-white xl flex justify-center gap-2 font-semibold',
+            shouldDisablePayment ? 'opacity-50' : '',
+          ])}
         >
           Proceed to confirm
         </Button>
@@ -197,6 +203,7 @@ const RightSidebar = () => {
               Paypal / Credit
             </Button>
             <Button
+              disabled
               disableBaseClassName={true}
               className="rounded-3xl bg-[#9c9c9c] px-3 py-2 opacity-60"
               onClick={notifyUpcoming}
