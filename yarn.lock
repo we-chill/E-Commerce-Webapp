@@ -2083,6 +2083,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@paypal/paypal-js@npm:^5.1.4":
+  version: 5.1.4
+  resolution: "@paypal/paypal-js@npm:5.1.4"
+  dependencies:
+    promise-polyfill: ^8.2.3
+  checksum: 8b86ca48c875011730957ea56b3a6847737ba270c448e151e03a8bfc4b8e51ae61bd5181ced7f17522b1efd38550584d40a1bcd71e06495b7aa2fb1026af3ec0
+  languageName: node
+  linkType: hard
+
+"@paypal/react-paypal-js@npm:^7.8.1":
+  version: 7.8.2
+  resolution: "@paypal/react-paypal-js@npm:7.8.2"
+  dependencies:
+    "@paypal/paypal-js": ^5.1.4
+    "@paypal/sdk-constants": ^1.0.122
+  peerDependencies:
+    react: ">=16.3.0"
+    react-dom: ">=16.3.0"
+  checksum: 8cf91a4cbf94bbe9ac96367a25cd9d496180f92fd418d15130e8b11aee223f2f15b83369afa8dd4c3b829e13d5e61e3727ffca936974024906535c98858a7222
+  languageName: node
+  linkType: hard
+
+"@paypal/sdk-constants@npm:^1.0.122":
+  version: 1.0.128
+  resolution: "@paypal/sdk-constants@npm:1.0.128"
+  dependencies:
+    hi-base32: ^0.5.0
+  checksum: e881a8102c4c98b045202c4fa71d4c5fe55b552023f4be9f81bb4e7b54730fdbb0c3d2ab3ab2c1f7d5ccc6b137d37c8ecdf5d814b3533b2b17a2914e1662632f
+  languageName: node
+  linkType: hard
+
 "@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3":
   version: 0.5.8
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.8"
@@ -8708,6 +8739,13 @@ eslint-config-standard-with-typescript@latest:
   languageName: node
   linkType: hard
 
+"hi-base32@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "hi-base32@npm:0.5.1"
+  checksum: 6655682b5796d75ed3068071e61d05a490e2086c4908af3b94a730059147b8a4a5e8870e656b828d0550dcc9988d8748bda54a53e428cbce28e0d7a785b2ffde
+  languageName: node
+  linkType: hard
+
 "history@npm:^4.7.2":
   version: 4.10.1
   resolution: "history@npm:4.10.1"
@@ -12269,6 +12307,13 @@ eslint-config-standard-with-typescript@latest:
   languageName: node
   linkType: hard
 
+"promise-polyfill@npm:^8.2.3":
+  version: 8.2.3
+  resolution: "promise-polyfill@npm:8.2.3"
+  checksum: f320278bab8b8ce32f0e2f377d75aabe35c90a79f92b3e001db084d635da1fb8740ba8a26b5c1c2b4cdca5a4c988f9b6b3eb30f0b151d0362d3d9c1675024a8f
+  languageName: node
+  linkType: hard
+
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -15248,6 +15293,7 @@ eslint-config-standard-with-typescript@latest:
     "@faker-js/faker": ^7.6.0
     "@headlessui/react": ^1.7.3
     "@mdx-js/react": ^1.6.22
+    "@paypal/react-paypal-js": ^7.8.1
     "@storybook/addon-actions": ^6.5.12
     "@storybook/addon-docs": ^6.5.12
     "@storybook/addon-essentials": ^6.5.12
