@@ -1,7 +1,6 @@
 import { StateCreator, StoreApi } from 'zustand';
 
 import { Product, ProductInCart } from '@/types';
-import { MOCK_ITEM_LIST_AND_QUANTITY, MOCK_TOTAL_PRICE } from 'mocks';
 
 type CartItemListAndQuantity = {
   [id: Product['id']]: ProductInCart;
@@ -20,8 +19,8 @@ export interface CartSlice {
 
 const createCartSlice: StateCreator<CartSlice> | StoreApi<CartSlice> = (set, get) => ({
   cart: {
-    totalPrice: MOCK_TOTAL_PRICE,
-    itemListAndQuantity: MOCK_ITEM_LIST_AND_QUANTITY,
+    totalPrice: 0,
+    itemListAndQuantity: {},
     addProductToCart: (product) => {
       const newItemListAndQuantity = {
         ...get().cart.itemListAndQuantity,
