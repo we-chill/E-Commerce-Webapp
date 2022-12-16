@@ -4,4 +4,5 @@ export const Routes = {
   login: '/login',
   createAccount: '/create-account',
   shoppingCart: '/shopping-cart',
+  return: '/doi-tra',
 };

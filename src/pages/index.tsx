@@ -32,8 +32,8 @@ const HomePage: NextPageWithLayout = () => {
   useEffect(() => {
     async function fetchData() {
       // You can await here
-      const response = await axios.get('http://127.0.0.1:8000/products/');
-      setProductLs(response.data);
+      const response = await axios.get('http://127.0.0.1:8000/products/phong-bep/');
+      setProductLs(response.data.products);
     }
     fetchData();
   }, []);

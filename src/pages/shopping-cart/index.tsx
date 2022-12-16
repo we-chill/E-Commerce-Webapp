@@ -19,6 +19,7 @@ import { getPaginationArray } from '@/utils/table';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { getCookie, notifyUpcoming, saveCookie } from '@/utils';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const sharedInputClassName = 'mt-2 p-3 w-full border-[#D7D7D7] border-2 rounded-lg shadow-sm bg-transparent';
 
@@ -249,7 +250,7 @@ type CardInputs = {
 ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
   const [isPayment, setIsPayment] = useState(false);
   const router = useRouter();
-  const { totalPrice } = useStore((state) => state.cart);
+  const { totalPrice, itemListAndQuantity } = useStore((state) => state.cart);
 
   const {
     register,
@@ -360,10 +361,37 @@ ShoppingCartPage.getLayout = function getLayout(page: ReactElement) {
           });
         }}
         onApprove={(data, actions) => {
-          return actions.order.capture().then((details) => {
+          return actions.order.capture().then(async (details) => {
             //Phần này sau khi thanh toán xong em nghĩ nên set một đơn hàng vô localstorage
             const transaction = details.purchase_units[0].payments.captures[0];
             if (transaction.status === 'COMPLETED') {
+              const token = localStorage.getItem('access');
+              const orderItems = [];
+              Object.keys(itemListAndQuantity).forEach(function (key, index) {
+                orderItems.push({ product: itemListAndQuantity[key].id, quantity: itemListAndQuantity[key].count });
+              });
+              try {
+                axios.defaults.headers.post['Authorization'] = `Bearer ${localStorage.getItem('access')}`;
+                const response = await axios.post(
+                  'http://127.0.0.1:8000/orders/checkout/',
+                  {
+                    address: '608-H6, DHBK DHQG-HCM',
+                    mobile: '+84335570069',
+                    discount: 0,
+                    total_price: totalPrice.toString(),
+                    status: 'P',
+                    order_items: orderItems,
+                  },
+                  {
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  }
+                );
+                console.log(response);
+              } catch (error) {
+                console.log(error);
+              }
               alert(`Giao dịch thành công. Trở về trang chủ sau 3 giây`);
               setTimeout(() => {
                 router.replace(Routes.landingPage);

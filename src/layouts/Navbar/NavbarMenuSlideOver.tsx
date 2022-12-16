@@ -38,6 +38,11 @@ const NavbarMenuSlideOver = () => {
       Contact
     </Link>
   );
+  const linkReturn = (
+    <Link href="/doi-tra" {...sharedLinkProps} onClick={() => closeNavbarSlideOver()}>
+      Policy
+    </Link>
+  );
 
   return (
     <SlideOver isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -46,6 +51,7 @@ const NavbarMenuSlideOver = () => {
         {linkAboutUs}
         {linkBlog}
         {linkContact}
+        {linkReturn}
       </div>
     </SlideOver>
   );

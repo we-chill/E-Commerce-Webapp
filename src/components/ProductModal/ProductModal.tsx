@@ -41,9 +41,9 @@ export interface ProductModalProps {
 const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose, onClickAddToCart }) => {
   const addProductToCart = useStore((state) => state.cart.addProductToCart);
   const renderLeftSection = () => {
-    const title = <div className="text-sm font-medium">{product.title ?? 'Product Title'}</div>;
+    const title = <div className="text-2xl font-medium">{product.title ?? 'Product Title'}</div>;
     const name = <div className="text-2xl font-bold uppercase">{product.name}</div>;
-    const description = product.description ? <div className="text-xs">{product.description}</div> : null;
+    const description = product.description ? <div className="text-md">{product.description}</div> : null;
 
     const info = (
       <div className="flex flex-col gap-3">
@@ -81,7 +81,11 @@ const ProductModal: FC<ProductModalProps> = ({ product, visible, onClose, onClic
     );
   };
 
-  const centerSection = <div className="w-[26.25rem] h-[26.25rem] bg-[#E0E0E0] rounded-full" />;
+  const centerSection = (
+    <div className="w-[26.25rem] h-[26.25rem] bg-[#E0E0E0] rounded-full overflow-hidden">
+      <img src={product.get_image} alt={product.title} className="w-full h-full" />
+    </div>
+  );
   const renderRightSection = () => {
     const techInfo = product.technicalInformation ? (
       <div className="text-xs">{product.technicalInformation}</div>

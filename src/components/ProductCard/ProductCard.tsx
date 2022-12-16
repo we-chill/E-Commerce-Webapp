@@ -16,7 +16,11 @@ const ProductCard: FC<ProductCardProps> = ({ className, product, onClick }) => {
     onClick?.(product);
   };
 
-  const cardImage = <div className="w-full h-[13.75rem] bg-[#FEEFEF] rounded-xl"></div>;
+  const cardImage = (
+    <div className="w-full h-[13.75rem] bg-[#FEEFEF] rounded-xl">
+      <img src={product.get_image} alt={product.title} className="h-full" />
+    </div>
+  );
   const productPrice = <div className="mt-2 text-xl font-bold">${price}</div>;
   // const productName = <div className="text-[#4C4C4C]">{name}</div>;
   const productName = <div className="text-[#4C4C4C]">{title}</div>;
